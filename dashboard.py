@@ -19,7 +19,7 @@ def load_shapefile():
     return counties[counties["STATEFP"] == "47"]  # Tennessee only
 
 tn_counties = load_shapefile()
-tn_counties["NAME"] = tn_counties["NAME"].str.strip().str.title()
+tn_counties["NAME"] = tn_counties["NAME"].str.strip().str.lower().str.capitalize()
 
 # ========== LOAD ALL YEARLY DATA ==========
 @st.cache_data
@@ -50,7 +50,7 @@ grouped = (
            .reset_index()
 )
 grouped["Pass_perct_total"] = round((grouped["Pass"] / grouped["No."]) * 100, 2).fillna(0)
-grouped["County"] = grouped["County Name"].str.split(',').str[0].str.strip()
+grouped["County"] = grouped["County Name"].str.split(',').str[0].str.strip().str.lower().str.capitalize()
 
 school_info = (
     df_year.groupby("County Name")
